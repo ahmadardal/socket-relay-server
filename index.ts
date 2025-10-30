@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
 });
 
 // **Explicit start**
-const port = parseInt(process.env.PORT || '3001', 10);
+const port = parseInt(process.env.PORT || '3006', 10);
 console.log(`Socket.IO server running on port ${port}`);
 Bun.serve({
   port,
