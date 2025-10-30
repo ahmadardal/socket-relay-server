@@ -1,0 +1,22 @@
+{
+  "name": "relay-server",
+  "author": "Ahmad Ardal",
+  "version": "1.0.0",
+  "description": "Socket.IO server for relaying events between clients",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@socket.io/bun-engine": "^0.0.3",
+    "socket.io": "^4.8.1"
+  },
+  "scripts": {
+    "start": "bun run index.ts"
+  }
+}
