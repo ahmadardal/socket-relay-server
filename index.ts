@@ -2,7 +2,7 @@ import { Server as Engine } from '@socket.io/bun-engine';
 import { Server } from 'socket.io';
 
 const engine = new Engine({
-  path: '/socket.io/',
+  path: '/',
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
