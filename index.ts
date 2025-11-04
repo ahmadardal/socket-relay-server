@@ -1,4 +1,5 @@
 import { Server as Engine } from '@socket.io/bun-engine';
+import type { BunRequest } from 'bun';
 import { Server } from 'socket.io';
 
 const eventsToData = new Map<string, any[]>();
@@ -40,18 +41,18 @@ io.on('connection', (socket) => {
 // **Explicit start**
 const port = parseInt(process.env.PORT || '3006', 10);
 
-// const routeName = `/${path}/events_by/:event_name`;
+const routeName = `/${path}/events_by/:event_name`;
 
 Bun.serve({
   port,
   routes: {
-    '/fos25/events_by': {
-      GET: (req) => {
+    [routeName]: {
+      GET: (req: BunRequest) => {
         const url = new URL(req.url);
 
-        const event_name = url.searchParams.get('event_name');
+        const name = url.searchParams.get('name');
 
-        if (!event_name) {
+        if (!name) {
           return new Response(
             JSON.stringify({ error: 'Event name is required' }),
             {
@@ -63,14 +64,11 @@ Bun.serve({
           );
         }
 
-        return new Response(
-          JSON.stringify(eventsToData.get(event_name) || []),
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
+        return new Response(JSON.stringify(eventsToData.get(name) || []), {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
       },
     },
   },
