@@ -45,8 +45,8 @@ const routeName = `/${path}/events_by/:event_name`;
 Bun.serve({
   port,
   routes: {
-    routeName: {
-      GET: (req) => {
+    [routeName]: {
+      GET: (req: any) => {
         const { event_name }: any = req.params;
 
         if (!event_name) {
