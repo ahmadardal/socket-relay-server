@@ -45,7 +45,7 @@ const port = parseInt(process.env.PORT || '3006', 10);
 Bun.serve({
   port,
   routes: {
-    '/events_by/:event_name': {
+    '/fos25/events_by/:event_name': {
       GET: (req: any) => {
         const { event_name }: any = req.params;
 
