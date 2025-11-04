@@ -54,7 +54,7 @@ Bun.serve({
 
         if (!name) {
           return new Response(
-            JSON.stringify({ error: 'Event name is required' }),
+            JSON.stringify({ error: 'Missing name query parameter!' }),
             {
               status: 400,
               headers: {
