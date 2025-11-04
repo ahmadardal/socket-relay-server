@@ -1,6 +1,7 @@
 import { Server as Engine } from '@socket.io/bun-engine';
 import type { BunRequest } from 'bun';
 import { Server } from 'socket.io';
+import { addToBuffer, bufferToArray, getOrCreateBuffer } from './buffer';
 
 const eventsToData = new Map<string, any[]>();
 
@@ -25,10 +26,9 @@ io.on('connection', (socket) => {
   socket.onAny((event, data) => {
     console.log(`Relaying event: ${event}`, data);
 
-    eventsToData.set(event, [
-      ...(eventsToData.get(event)?.slice(0, 8) || []),
-      data,
-    ]);
+    // Mutate the existing data, by popping
+
+    addToBuffer(getOrCreateBuffer<any>(event), data);
 
     socket.broadcast.emit(event, data);
   });
@@ -64,7 +64,11 @@ Bun.serve({
           );
         }
 
-        return new Response(JSON.stringify(eventsToData.get(name) || []), {
+        const buffer = getOrCreateBuffer<any>(name);
+
+        const data = buffer ? bufferToArray(buffer) : [];
+
+        return new Response(JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json',
           },
