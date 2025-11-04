@@ -1,0 +1,2 @@
+PORT=5031 NAME=fos25 pm2 start --watch --name FOS25 --interpreter ~/.bun/bin/bun index.ts
+PORT=5030 NAME=sys25d pm2 start --watch --name SYS25D --interpreter ~/.bun/bin/bun index.ts

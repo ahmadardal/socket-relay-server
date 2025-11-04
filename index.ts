@@ -3,8 +3,11 @@ import { Server } from 'socket.io';
 
 const eventsToData = new Map<string, any[]>();
 
+const name = process.env.NAME || 'default'
+const path = `/${name}/`
+
 const engine = new Engine({
-  path: '/',
+  path,
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
@@ -65,4 +68,4 @@ Bun.serve({
   ...engine.handler(),
 });
 
-console.log(`Socket.IO server running on port ${port}`);
+console.log(`Socket.IO server running on port ${port} at path ${path}`);
