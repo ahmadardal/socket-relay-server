@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
 // **Explicit start**
 const port = parseInt(process.env.PORT || '3006', 10);
 
-const routeName = `/${path}/events_by/:event_name`;
+const routeName = `${path}/events_by`;
 
 Bun.serve({
   port,
