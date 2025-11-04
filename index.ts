@@ -3,8 +3,8 @@ import { Server } from 'socket.io';
 
 const eventsToData = new Map<string, any[]>();
 
-const name = process.env.NAME || 'default'
-const path = `/${name}/`
+const name = process.env.NAME || 'default';
+const path = `/${name}/`;
 
 const engine = new Engine({
   path,
@@ -43,26 +43,31 @@ const port = parseInt(process.env.PORT || '3006', 10);
 Bun.serve({
   port,
   routes: {
-    '/events_by': (req) => {
-      const { event_name }: any = req.params;
+    '/events_by/:event_name': {
+      GET: (req) => {
+        const { event_name }: any = req.params;
 
-      if (!event_name) {
+        if (!event_name) {
+          return new Response(
+            JSON.stringify({ error: 'Event name is required' }),
+            {
+              status: 400,
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+        }
+
         return new Response(
-          JSON.stringify({ error: 'Event name is required' }),
+          JSON.stringify(eventsToData.get(event_name) || []),
           {
-            status: 400,
             headers: {
               'Content-Type': 'application/json',
             },
           }
         );
-      }
-
-      return new Response(JSON.stringify(eventsToData.get(event_name) || []), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      },
     },
   },
   ...engine.handler(),
