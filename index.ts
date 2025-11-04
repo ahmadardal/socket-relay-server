@@ -45,9 +45,11 @@ const port = parseInt(process.env.PORT || '3006', 10);
 Bun.serve({
   port,
   routes: {
-    '/fos25/events_by/:event_name': {
-      GET: (req: any) => {
-        const { event_name }: any = req.params;
+    '/fos25/events_by': {
+      GET: (req) => {
+        const url = new URL(req.url);
+
+        const event_name = url.searchParams.get('event_name');
 
         if (!event_name) {
           return new Response(
